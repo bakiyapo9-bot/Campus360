@@ -46,13 +46,6 @@
   <script src="../../static/js/mock-data.js"></script>
   <script src="../../static/js/services.js"></script>
   <script src="../../static/js/core.js"></script>
-  <script>
-    document.getElementById('forgotForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (!C360.ui.validate(this)) return;
-      document.getElementById('step-request').classList.add('d-none');
-      document.getElementById('step-sent').classList.remove('d-none');
-    });
-  </script>
+  <script src="../../static/js/pages/mot-de-passe-oublie.js"></script>
 </body>
 </html>

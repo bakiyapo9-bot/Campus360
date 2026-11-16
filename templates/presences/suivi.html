@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Suivi des présences · Campus360</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../../static/css/campus360.css" rel="stylesheet">
+</head>
+<body data-page="presences" data-roles="admin,scolarite,enseignant">
+<div class="app-shell">
+  <aside id="c360-sidebar" class="app-sidebar" aria-label="Navigation principale"></aside>
+  <div class="app-main">
+    <header id="c360-topbar" class="app-topbar"></header>
+    <main class="app-content">
+      <div class="page-header">
+        <div>
+          <h1>Suivi des présences</h1>
+          <nav aria-label="Fil d'Ariane"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../dashboard/index.html">Accueil</a></li><li class="breadcrumb-item active">Suivi des présences</li></ol></nav>
+        </div>
+        <div class="actions">
+          <button class="btn btn-light" id="btnExport"><i class="bi bi-file-earmark-excel me-1"></i>Exporter</button>
+          <a href="appel.html" class="btn btn-primary"><i class="bi bi-check2-square me-1"></i>Faire l'appel</a>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-3" id="stats"></div>
+
+      <ul class="nav nav-pills mb-3 gap-1" role="tablist">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#p-etudiants" type="button"><i class="bi bi-people me-1"></i>Par étudiant</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#p-justif" type="button"><i class="bi bi-file-earmark-medical me-1"></i>Absences à justifier <span class="badge text-bg-danger ms-1" id="nbJustif">0</span></button></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="p-etudiants">
+          <div class="card">
+            <div class="card-body border-bottom"><div class="toolbar">
+              <div class="search-box"><i class="bi bi-search"></i><input type="search" id="search" class="form-control" placeholder="Nom ou matricule…" aria-label="Rechercher"></div>
+              <select id="fGroupe" class="form-select" aria-label="Groupe"></select>
+              <div class="form-check form-switch ms-2"><input class="form-check-input" type="checkbox" role="switch" id="fSeuil"><label class="form-check-label" for="fSeuil">Seulement au-delà du seuil (<span id="seuilVal"></span> absences non justifiées)</label></div>
+            </div></div>
+            <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Étudiant</th><th>Groupe</th><th class="text-center">Séances</th><th class="text-center">Absences</th><th class="text-center">Non justifiées</th><th class="text-center">Retards</th><th>Taux de présence</th><th>Alerte</th></tr></thead><tbody id="tbody"></tbody></table></div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="p-justif">
+          <div class="card">
+            <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Date</th><th>Étudiant</th><th>Cours</th><th>Observation</th><th class="text-end">Action</th></tr></thead><tbody id="justifBody"></tbody></table></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="app-footer"></footer>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../static/js/mock-data.js"></script>
+<script src="../../static/js/services.js"></script>
+<script src="../../static/js/core.js"></script>
+<script src="../../static/js/pages/presences-suivi.js"></script>
+</body>
+</html>

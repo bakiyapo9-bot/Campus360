@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Emplois du temps · Campus360</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="../../static/css/campus360.css" rel="stylesheet">
+</head>
+<body data-page="emploi-du-temps">
+<div class="app-shell">
+  <aside id="c360-sidebar" class="app-sidebar" aria-label="Navigation principale"></aside>
+  <div class="app-main">
+    <header id="c360-topbar" class="app-topbar"></header>
+    <main class="app-content">
+      <div class="page-header">
+        <div>
+          <h1>Emplois du temps</h1>
+          <nav aria-label="Fil d'Ariane"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../dashboard/index.html">Accueil</a></li><li class="breadcrumb-item active">Emplois du temps</li></ol></nav>
+        </div>
+        <div class="actions">
+          <button class="btn btn-light" data-print><i class="bi bi-printer me-1"></i>Imprimer</button>
+          <button class="btn btn-primary" id="btnNew" data-perm="write"><i class="bi bi-plus-lg me-1"></i>Planifier une séance</button>
+        </div>
+      </div>
+
+      <div class="card mb-3 no-print" id="filtersCard"><div class="card-body py-2">
+        <div class="toolbar">
+          <div class="btn-group btn-group-sm" role="group" aria-label="Vue">
+            <input type="radio" class="btn-check" name="vue" id="vGroupe" value="groupe" checked><label class="btn btn-outline-primary" for="vGroupe">Par groupe</label>
+            <input type="radio" class="btn-check" name="vue" id="vEns" value="enseignant"><label class="btn btn-outline-primary" for="vEns">Par enseignant</label>
+            <input type="radio" class="btn-check" name="vue" id="vSalle" value="salle"><label class="btn btn-outline-primary" for="vSalle">Par salle</label>
+          </div>
+          <select id="fCible" class="form-select form-select-sm" aria-label="Sélection"></select>
+          <span class="ms-auto text-sm text-secondary" id="nbSeances"></span>
+        </div>
+      </div></div>
+
+      <div class="card"><div class="card-body" id="timetable"></div></div>
+    </main>
+    <footer class="app-footer"></footer>
+  </div>
+</div>
+
+<div class="modal fade" id="seanceModal" tabindex="-1" aria-labelledby="seanceTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form id="seanceForm" novalidate>
+        <div class="modal-header"><h5 class="modal-title" id="seanceTitle">Planifier une séance</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button></div>
+        <div class="modal-body">
+          <div id="seanceErrors"></div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label" for="sGroupe">Groupe (filière – niveau) *</label><select id="sGroupe" name="groupe" class="form-select" required></select></div>
+            <div class="col-md-6"><label class="form-label" for="sMatiere">Matière *</label><select id="sMatiere" name="matiere_id" class="form-select" required></select></div>
+            <div class="col-md-6"><label class="form-label" for="sEnseignant">Enseignant *</label><select id="sEnseignant" name="enseignant_id" class="form-select" required></select></div>
+            <div class="col-md-6"><label class="form-label" for="sSalle">Salle *</label><select id="sSalle" name="salle_id" class="form-select" required></select></div>
+            <div class="col-md-3"><label class="form-label" for="sJour">Jour *</label><select id="sJour" name="jour" class="form-select" required><option value="1">Lundi</option><option value="2">Mardi</option><option value="3">Mercredi</option><option value="4">Jeudi</option><option value="5">Vendredi</option><option value="6">Samedi</option></select></div>
+            <div class="col-md-3"><label class="form-label" for="sDebut">Début *</label><input type="time" id="sDebut" name="debut" class="form-control" required min="07:30" max="19:00" step="900"></div>
+            <div class="col-md-3"><label class="form-label" for="sFin">Fin *</label><input type="time" id="sFin" name="fin" class="form-control" required min="07:30" max="19:00" step="900"></div>
+            <div class="col-md-3"><label class="form-label" for="sType">Type *</label><select id="sType" name="type" class="form-select" required><option>CM</option><option>TD</option><option>TP</option><option>Examen</option></select></div>
+          </div>
+          <div id="liveCheck" class="mt-3"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger me-auto d-none" id="btnDelete"><i class="bi bi-trash me-1"></i>Supprimer</button>
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../static/js/mock-data.js"></script>
+<script src="../../static/js/services.js"></script>
+<script src="../../static/js/core.js"></script>
+<script src="../../static/js/timetable.js"></script>
+<script src="../../static/js/pages/emploi-du-temps.js"></script>
+</body>
+</html>

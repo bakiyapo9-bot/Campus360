@@ -18,7 +18,7 @@
     <main class="app-content">
       <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3 no-print" style="max-width:820px;margin:0 auto">
         <a href="paiements.html" class="btn btn-light" id="backLink"><i class="bi bi-arrow-left me-1"></i>Retour</a>
-        <button class="btn btn-primary" onclick="window.print()"><i class="bi bi-printer me-1"></i>Imprimer / PDF</button>
+        <button class="btn btn-primary" data-print><i class="bi bi-printer me-1"></i>Imprimer / PDF</button>
       </div>
       <div id="doc"></div>
     </main>
@@ -30,21 +30,6 @@
 <script src="../../static/js/services.js"></script>
 <script src="../../static/js/core.js"></script>
 <script src="../../static/js/doc-templates.js"></script>
-<script>
-  C360.page(function () {
-    const id = Number(C360.param('id'));
-    const p = C360.db.get('paiements', id);
-    const role = C360.session.role();
-    // Un étudiant ne peut consulter que ses propres reçus (contrôle à refaire côté serveur)
-    if (role === 'etudiant') {
-      document.getElementById('backLink').href = '../espace/etudiant.html#finances';
-      if (!p || p.etudiant_id !== C360.ROLES.etudiant.etudiant_id) {
-        document.getElementById('doc').innerHTML = '<div class="alert alert-danger">Vous n\'avez pas accès à ce reçu.</div>';
-        return;
-      }
-    }
-    document.getElementById('doc').innerHTML = C360.docs.render('recu', id);
-  });
-</script>
+<script src="../../static/js/pages/recu.js"></script>
 </body>
 </html>

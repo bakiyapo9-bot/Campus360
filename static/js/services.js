@@ -261,7 +261,7 @@
     const parts = [];
     const millions = Math.floor(n / 1e6); const milliers = Math.floor((n % 1e6) / 1000); const reste = n % 1000;
     if (millions) parts.push(`${sous1000(millions)} million${millions > 1 ? 's' : ''}`);
-    if (milliers) parts.push(milliers === 1 ? 'mille' : `${sous1000(milliers).replace(/cents$/, 'cent')} mille`);
+    if (milliers) parts.push(milliers === 1 ? 'mille' : `${sous1000(milliers).replace(/(cent|vingt)s$/, '$1')} mille`);
     if (reste) parts.push(sous1000(reste));
     return parts.join(' ');
   };
@@ -269,6 +269,24 @@
   /** Journal d'audit (paiements, annulations, corrections…). */
   C360.audit = function (action, details) {
     C360.db.insert('audit', { date: new Date().toISOString().slice(0, 16).replace('T', ' '), utilisateur: C360.session ? C360.session.user().nom : '—', action, details });
+  };
+
+  /** Aides pour le module notes / présences. */
+  C360.notes = {
+    /** Matières visibles : un enseignant ne voit que les siennes. */
+    matieresAccessibles() {
+      const role = C360.session ? C360.session.role() : 'admin';
+      if (role === 'enseignant') return C360.db.where('matieres', (m) => m.enseignant_id === C360.ROLES.enseignant.enseignant_id);
+      return C360.db.all('matieres');
+    },
+    /** Étudiants actifs suivant une matière (filière + niveau de son UE). */
+    etudiantsDeMatiere(matiereId) {
+      const m = C360.db.get('matieres', matiereId);
+      const u = m ? C360.db.get('ues', m.ue_id) : null;
+      if (!u) return [];
+      return C360.db.where('etudiants', (e) => e.statut === 'Actif' && e.filiere_id === u.filiere_id && e.niveau_id === u.niveau_id)
+        .sort((a, b) => a.nom.localeCompare(b.nom) || a.prenom.localeCompare(b.prenom));
+    },
   };
 
   /* ------------------------------------------------------------- formats --- */
